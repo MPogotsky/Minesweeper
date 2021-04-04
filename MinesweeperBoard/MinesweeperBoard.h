@@ -2,6 +2,7 @@
 #define MINESWEEPERBOARD_H_
 
 #include <iostream>
+#include <vector>
 
 enum class GameMode {
   DEBUG,
@@ -16,23 +17,23 @@ enum class GameState {
   FINISHED_LOSS
 };
 
-struct Field {
-  bool hasMine;
-  bool hasFlag;
-  bool isRevealed;
-};
+
 
 class MinesweeperBoard {
 private:
-  Field board[50][50];
   int width;
   int height;
+  std::vector<std::vector<Field>> board;
 public:
   MinesweeperBoard(int width, int height);
+  virtual ~MinesweeperBoard();
+
   int getBoardWidth() const;
   int getBoardHeight() const;
   int getMineCount() const;
-  virtual ~MinesweeperBoard();
+
+  void printRawBoard();
+
 };
 
 #endif  //MINESWEEPERBOARD_H_
