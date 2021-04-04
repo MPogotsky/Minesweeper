@@ -1,6 +1,7 @@
 #ifndef MINESWEEPERBOARD_H_
 #define MINESWEEPERBOARD_H_
 
+#include "../Field/Field.h"
 #include <iostream>
 #include <vector>
 
@@ -32,7 +33,7 @@ public:
   int getBoardHeight() const;
   int getMineCount() const;
 
-  void printRawBoard();
+  void debug_display();
 
 };
 

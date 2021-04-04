@@ -23,7 +23,7 @@ int MinesweeperBoard::getBoardHeight() const {
 //   return
 // }
 
-void  MinesweeperBoard::printRawBoard() {
+void  MinesweeperBoard::debug_display() {
   for(int h = 0; h < height; h++){
     for(int w = 0; w < width; w++){
       std::cout << board[h][w].getField();
