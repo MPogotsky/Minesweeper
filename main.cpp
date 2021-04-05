@@ -3,8 +3,8 @@
 
 int main(int argc, char const *argv[])
 {
-  MinesweeperBoard mainBoard(10, 10, GameMode::EASY);
+  MinesweeperBoard mainBoard(10, 10, GameMode::HARD);
   mainBoard.debug_display();
-  std::cout << '\n' << mainBoard.countMines(5,5) << '\n';
+  std::cout << '\n' << mainBoard.countMines(4,4) << '\n';
   return 0;
 }

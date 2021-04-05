@@ -2,9 +2,9 @@
 
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
 :width(width), height(height), board(height, std::vector<Field>(width)), minesAround(0){
-  amountOfMines = (height*width)/static_cast<int>(gameMode);
+  amountOfMines = (height*width)*(static_cast<double>(gameMode)/100);
   generateMinesOnBoard(amountOfMines);
-  board[5][5].isRevealed = true;
+  board[4][4].isRevealed = true;
 }
 
 MinesweeperBoard::~MinesweeperBoard(){
