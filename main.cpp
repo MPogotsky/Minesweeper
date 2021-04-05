@@ -1,5 +1,5 @@
 #include <iostream>
-#include "MSBoardTextView/MSBoardTextView.h"
+#include "MSTextController/MSTextController.h"
 
 int main(int argc, char const *argv[])
 {
@@ -14,12 +14,10 @@ int main(int argc, char const *argv[])
   board.toggleFlag(6,6);
   board.toggleFlag(9,9);
 
-  board.debug_display();
-  std::cout  << '\n';
-
   MSBoardTextView view(board);
   view.display();
 
+  MSTextController controller(board, view);
 
   return 0;
 }

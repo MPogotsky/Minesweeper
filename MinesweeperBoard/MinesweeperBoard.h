@@ -32,8 +32,8 @@ private:
   bool isInRange(int col, int raw) const;
 
 public:
-  MinesweeperBoard(int width, int height, GameMode gameMode);
-  virtual ~MinesweeperBoard();
+  MinesweeperBoard (int width, int height, GameMode gameMode);
+  ~MinesweeperBoard ();
 
   int getBoardWidth() const;
   int getBoardHeight() const;
