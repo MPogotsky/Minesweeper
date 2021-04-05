@@ -1,7 +1,8 @@
 #include "MinesweeperBoard.h"
 
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
-:width(width), height(height), board(height, std::vector<Field>(width)), minesAround(0){
+:width(width), height(height), board(height, std::vector<Field>(width)),
+minesAround(0), isFirstAction(true){
   amountOfMines = (height*width)*(static_cast<double>(gameMode)/100);
   generateMinesOnBoard(amountOfMines);
   board[4][4].isRevealed = true;
@@ -22,6 +23,30 @@ int MinesweeperBoard::getMineCount() const {
   return amountOfMines;
 }
 
+//Displays the raw board
+void MinesweeperBoard::debug_display() {
+  for(int row = 0; row < height; row++){
+    for(int col = 0; col < width; col++){
+      std::cout << board[row][col].getField();
+    }
+    std::cout << '\n';
+  }
+}
+
+//Generates mines on board at random positions
+void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
+  int randomHeight, randomWidth;
+  srand (time(NULL));
+  do{
+    randomHeight = rand() % height;
+    randomWidth = rand() % width;
+    if(!board[randomHeight][randomWidth].hasMine){
+      board[randomHeight][randomWidth].hasMine = true;
+      amountOfMines--;
+    }
+  }while(amountOfMines > 0);
+}
+
 //Checks whether the cell at the position (row, col) is valid or not
 bool MinesweeperBoard::isInRange(int row, int col) const {
   if(row >= 0 && row <= width && col >= 0 && col <= height){
@@ -40,7 +65,7 @@ bool MinesweeperBoard::isInRange(int row, int col) const {
 
 //Used to count mines around the revealed cell
 int MinesweeperBoard::countMines(int row, int col) {
-  if(isInRange(row, col) && board[col][row].isRevealed){
+  if(isInRange(row, col) && board[row][col].isRevealed){
 
     //----------- 1st Neighbour ------------
     if (isInRange(row-1, col))
@@ -97,26 +122,44 @@ int MinesweeperBoard::countMines(int row, int col) {
   return minesAround;
 }
 
-//Generates mines on board at random positions
-void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
-  int randomHeight, randomWidth;
-  srand (time(NULL));
-  do{
-    randomHeight = rand() % height;
-    randomWidth = rand() % width;
-    if(!board[randomHeight][randomWidth].hasMine){
-      board[randomHeight][randomWidth].hasMine = true;
-      amountOfMines--;
-    }
-  }while(amountOfMines > 0);
+//Returns true if the field at (row,col) position was marked with flag & not revealed
+bool MinesweeperBoard::hasFlag(int row, int col) const {
+  if(isInRange(row, col) && board[row][col].hasFlag && !board[row][col].isRevealed){
+    return true;
+  }
+  return false;
 }
 
-//Displays the raw board
-void MinesweeperBoard::debug_display() {
-  for(int row = 0; row < height; row++){
-    for(int col = 0; col < width; col++){
-      std::cout << board[row][col].getField();
-    }
-    std::cout << '\n';
+//If the field at (row,col) was not revealed - change flag status for this field
+void MinesweeperBoard::toggleFlag(int row, int col) {
+  if(isInRange(row, col) && !board[row][col].isRevealed){
+    board[row][col].isRevealed = true;
   }
+}
+
+void MinesweeperBoard::revealField(int row, int col) {
+  if(isInRange(row, col) && !board[row][col].isRevealed && !board[row][col].hasFlag){
+    //If its the first player action - move mine to another location
+    if(board[row][col].hasMine && isFirstAction){
+      isFirstAction = false;             //Change flag state
+      board[row][col].hasMine = false;   //"Delete" mine
+      generateMinesOnBoard(1);           //Generate new mine 1 time at random position
+      board[row][col].isRevealed = true; //Reveal field
+    }else{
+      //just reveal field
+      board[row][col].isRevealed = true;
+    }
+  }
+}
+
+bool MinesweeperBoard::isRevealed(int row, int col) const {
+  return board[row][col].isRevealed;
+}
+
+GameState MinesweeperBoard::getGameState() const {
+  // return current game state:
+  // - FINISHED_LOSS - if the player revealed field with mine
+  // - FINISHED_WIN  - if the player won the game (all unrevealed fields have mines)
+  // - RUNNING       - if the game is not yet finished
+  return GameState::RUNNING;
 }

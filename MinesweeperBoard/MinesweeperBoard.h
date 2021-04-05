@@ -28,6 +28,7 @@ private:
   std::vector<std::vector<Field>> board;
   int amountOfMines; //Amount of mines to be placed on a board
   int minesAround; //Number of mines around the revealed cell
+  bool isFirstAction;
 
   bool isInRange(int col, int raw) const;
 
@@ -42,6 +43,11 @@ public:
   void debug_display();
   void generateMinesOnBoard(int amountOfMines);
   int countMines(int row, int col);
+  bool hasFlag(int row, int col) const;
+  void toggleFlag(int row, int col);
+  void revealField(int row, int col);
+  bool isRevealed(int row, int col) const;
+  GameState getGameState() const;
 
 };
 
