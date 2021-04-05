@@ -30,16 +30,16 @@ std::string Field::getRawField() const {
 
 std::string Field::getField() const {
   // if the field is not revealed and has a flag
-  if(hasFlag == true && isRevealed == false){
+  if(hasFlag && !isRevealed){
     return "[F]";
   }
-  // if the field is revealed and has mine
-  if(hasMine == true && isRevealed == true){
-    return "[X]";
-  }
   // if the field is revealed and has 0 mines around
-  if(hasMine == false && isRevealed == true){
+  if(!hasMine && isRevealed){
     return "[ ]";
+  }
+  // if the field is revealed and has mine
+  if(hasMine && isRevealed){
+    return "[X]";
   }
   // if the field is not revealed and does not have a flag
   return "[_]";
