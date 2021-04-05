@@ -3,7 +3,7 @@
 
 int main(int argc, char const *argv[])
 {
-  MinesweeperBoard mainBoard(4, 4);
+  MinesweeperBoard mainBoard(10, 10, GameMode::EASY);
   mainBoard.debug_display();
   return 0;
 }

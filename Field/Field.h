@@ -2,6 +2,7 @@
 #define FIELD_H_
 
 #include <string>
+#include <sstream>
 
 struct Field {
   bool hasMine;
