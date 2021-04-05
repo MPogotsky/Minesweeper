@@ -1,7 +1,8 @@
 
 CC = g++ -Wall -Werror -O3
-SRC = ./MinesweeperBoard/MinesweeperBoard.cpp
+SRC_BOARD = ./MinesweeperBoard/MinesweeperBoard.cpp
+SRC_FIELD = ./Field/Field.cpp
 BIN_FOLDER = ./bin
 
 all:
-	${CC} ${SRC} main.cpp -o ${BIN_FOLDER}/game
+	${CC} ${SRC_BOARD} ${SRC_FIELD} main.cpp -o ${BIN_FOLDER}/game
