@@ -1,7 +1,7 @@
 #include "MinesweeperBoard.h"
 
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
-  :width(width), height(height), board(width, std::vector<Field>(height)){
+  :width(width), height(height), board(height, std::vector<Field>(width)){
     amountOfMines = (height*width)/static_cast<int>(gameMode);
     generateMinesOnBoard(amountOfMines);
 }
@@ -21,23 +21,44 @@ int MinesweeperBoard::getMineCount() const {
   return amountOfMines;
 }
 
+bool MinesweeperBoard::isInRange(int row, int col) const {
+  if(row >= 0 && row <= width && col >= 0 && col <= height){
+    return true;
+  }
+  return false;
+}
+
+// int countMines(int col, int row) const {
+//   if(isInRange(col, raw)){
+//
+//     if(board[col][row].isRevealed){
+//
+//     }else{
+//       return -1;
+//     }
+//
+//   }else{
+//     return -1;
+//   }
+// }
+
 void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
-  int randomWidth, randomHeight;
+  int randomHeight, randomWidth;
   srand (time(NULL));
   do{
-    randomWidth = rand() % height;
-    randomHeight = rand() % width;
-    if(!board[randomWidth][randomHeight].hasMine){
-      board[randomWidth][randomHeight].hasMine = true;
+    randomHeight = rand() % height;
+    randomWidth = rand() % width;
+    if(!board[randomHeight][randomWidth].hasMine){
+      board[randomHeight][randomWidth].hasMine = true;
       amountOfMines--;
     }
   }while(amountOfMines > 0);
 }
 
 void MinesweeperBoard::debug_display() {
-  for(int h = 0; h < height; h++){
-    for(int w = 0; w < width; w++){
-      std::cout << board[h][w].getField();
+  for(int row = 0; row < height; row++){
+    for(int col = 0; col < width; col++){
+      std::cout << board[row][col].getField();
     }
     std::cout << '\n';
   }

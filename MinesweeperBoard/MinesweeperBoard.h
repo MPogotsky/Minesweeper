@@ -27,6 +27,10 @@ private:
   int height;
   std::vector<std::vector<Field>> board;
   int amountOfMines;
+  int minesAround;
+
+  bool isInRange(int col, int raw) const;
+
 public:
   MinesweeperBoard(int width, int height, GameMode gameMode);
   virtual ~MinesweeperBoard();
