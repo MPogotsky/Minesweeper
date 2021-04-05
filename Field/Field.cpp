@@ -10,7 +10,7 @@ std::string Field::getField(){
   if(hasMine == false && hasFlag == false && isRevealed == true){
     return "[.O.]";
   }
-  if(hasMine == true && hasFlag == false && isRevealed == true){
+  if(hasMine == true && hasFlag == true && isRevealed == false){
     return "[M.F]";
   }
   return "[...]";

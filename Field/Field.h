@@ -3,6 +3,7 @@
 
 #include <string>
 
+//Structure representing a single cell on the board
 struct Field {
   bool hasMine;
   bool hasFlag;
