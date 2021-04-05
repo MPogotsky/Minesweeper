@@ -4,13 +4,21 @@
 int main(int argc, char const *argv[])
 {
 
-  MinesweeperBoard mainBoard(10, 10, GameMode::HARD);
+  MinesweeperBoard board(10, 10, GameMode::EASY);
 
-  mainBoard.revealField(0,0);
-  mainBoard.revealField(3,3);
-  mainBoard.toggleFlag(6,6);
-  mainBoard.toggleFlag(9,9);
-  mainBoard.debug_display();
+  board.revealField(0,0);
+  board.revealField(1,1);
+  board.revealField(3,3);
+  board.revealField(2,3);
+  board.revealField(5,3);
+  board.toggleFlag(6,6);
+  board.toggleFlag(9,9);
+
+  board.debug_display();
+  std::cout  << '\n';
+
+  MSBoardTextView view(board);
+  view.display();
 
 
   return 0;
