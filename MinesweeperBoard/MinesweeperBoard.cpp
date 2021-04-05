@@ -27,9 +27,7 @@ void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
   do{
     randomWidth = rand() % height;
     randomHeight = rand() % width;
-    if(board[randomWidth][randomHeight].hasMine){
-      break;
-    }else{
+    if(!board[randomWidth][randomHeight].hasMine){
       board[randomWidth][randomHeight].hasMine = true;
       amountOfMines--;
     }

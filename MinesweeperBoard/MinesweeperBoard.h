@@ -35,7 +35,7 @@ public:
   int getBoardHeight() const;
   int getMineCount() const;
 
-  void generateMinesOnBoard();
+  void generateMinesOnBoard(int amountOfMines);
   void debug_display();
 
 };
