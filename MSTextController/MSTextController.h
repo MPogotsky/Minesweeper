@@ -7,9 +7,14 @@ class MSTextController {
 private:
   MinesweeperBoard board;
   MSBoardTextView view;
+  int secondaryMenuOperation;
+
 public:
   MSTextController (MinesweeperBoard &board, MSBoardTextView &view);
   ~MSTextController ();
+  void play();
+  int startGame();
+  void prepareBoard();
 };
 
 #endif //MSTEXTCONTROLLER_H_

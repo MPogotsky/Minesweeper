@@ -32,7 +32,7 @@ private:
   bool isInRange(int col, int raw) const;
 
 public:
-  MinesweeperBoard (int width, int height, GameMode gameMode);
+  MinesweeperBoard (int height, int width, GameMode gameMode);
   ~MinesweeperBoard ();
 
   int getBoardWidth() const;

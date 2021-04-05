@@ -1,6 +1,6 @@
 #include "MinesweeperBoard.h"
 
-MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
+MinesweeperBoard::MinesweeperBoard(int height, int width, GameMode gameMode)
 :width(width), height(height), board(height, std::vector<Field>(width)),
 isFirstAction(true){
   amountOfMines = (height*width)*(static_cast<double>(gameMode)/100);
