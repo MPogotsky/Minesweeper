@@ -2,6 +2,7 @@
 #define FIELD_H_
 
 #include <string>
+#include <sstream>
 
 //Structure representing a single cell on the board
 struct Field {
@@ -9,10 +10,9 @@ struct Field {
   bool hasFlag;
   bool isRevealed;
 
-  Field()
-    :hasMine(false), hasFlag(false), isRevealed(false){
-  }
-  std::string getField();
+  Field();
+  std::string getRawField() const;
+  std::string getField() const;
   ~Field(){
   }
 };

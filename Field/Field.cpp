@@ -1,17 +1,46 @@
 #include "Field.h"
 
-std::string Field::getField(){
-  if(hasMine == true && hasFlag == false && isRevealed == false){
-    return "[M..]";
+Field::Field(){
+  this->hasMine = false;
+  this->hasFlag = false;
+  this->isRevealed = false;
+}
+
+std::string Field::getRawField() const {
+  std::stringstream ss;
+  ss << "[";
+  if(hasMine){
+    ss << "M";
+  }else{
+    ss << ".";
   }
-  if(hasMine == false && hasFlag == true && isRevealed == false){
-    return "[..F]";
+  if(isRevealed){
+    ss << "O";
+  }else{
+    ss << ".";
   }
-  if(hasMine == false && hasFlag == false && isRevealed == true){
-    return "[.O.]";
+  if(hasFlag){
+    ss << "F";
+  }else{
+    ss << ".";
   }
-  if(hasMine == true && hasFlag == true && isRevealed == false){
-    return "[M.F]";
+  ss << "]";
+  return ss.str();
+}
+
+std::string Field::getField() const {
+  // if the field is not revealed and has a flag
+  if(hasFlag == true && isRevealed == false){
+    return "[F]";
   }
-  return "[...]";
+  // if the field is revealed and has mine
+  if(hasMine == true && isRevealed == true){
+    return "[X]";
+  }
+  // if the field is revealed and has 0 mines around
+  if(hasMine == false && isRevealed == true){
+    return "[ ]";
+  }
+  // if the field is not revealed and does not have a flag
+  return "[_]";
 }
