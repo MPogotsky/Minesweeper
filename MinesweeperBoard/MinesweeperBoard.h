@@ -6,7 +6,7 @@
 #include <vector>
 #include <ctime>
 
-//enum class with mine percentage depending on game mode
+//Enum class with mine percentage depending on the game mode
 enum class GameMode {
   DEBUG,
   EASY = 10,    //  10% of game fields with mines (random)
@@ -23,11 +23,11 @@ enum class GameState {
 
 class MinesweeperBoard {
 private:
-  int width;
-  int height;
+  int width; //Width of the game field(board)
+  int height; //Height of the game field(board)
   std::vector<std::vector<Field>> board;
-  int amountOfMines;
-  int minesAround;
+  int amountOfMines; //Amount of mines to be placed on a board
+  int minesAround; //Number of mines around the revealed cell
 
   bool isInRange(int col, int raw) const;
 
@@ -39,8 +39,9 @@ public:
   int getBoardHeight() const;
   int getMineCount() const;
 
-  void generateMinesOnBoard(int amountOfMines);
   void debug_display();
+  void generateMinesOnBoard(int amountOfMines);
+  int countMines(int row, int col);
 
 };
 

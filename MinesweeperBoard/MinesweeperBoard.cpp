@@ -1,9 +1,10 @@
 #include "MinesweeperBoard.h"
 
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
-  :width(width), height(height), board(height, std::vector<Field>(width)){
-    amountOfMines = (height*width)/static_cast<int>(gameMode);
-    generateMinesOnBoard(amountOfMines);
+:width(width), height(height), board(height, std::vector<Field>(width)), minesAround(0){
+  amountOfMines = (height*width)/static_cast<int>(gameMode);
+  generateMinesOnBoard(amountOfMines);
+  board[5][5].isRevealed = true;
 }
 
 MinesweeperBoard::~MinesweeperBoard(){
@@ -21,6 +22,7 @@ int MinesweeperBoard::getMineCount() const {
   return amountOfMines;
 }
 
+//Checks whether the cell at the position (row, col) is valid or not
 bool MinesweeperBoard::isInRange(int row, int col) const {
   if(row >= 0 && row <= width && col >= 0 && col <= height){
     return true;
@@ -28,20 +30,74 @@ bool MinesweeperBoard::isInRange(int row, int col) const {
   return false;
 }
 
-// int countMines(int col, int row) const {
-//   if(isInRange(col, raw)){
-//
-//     if(board[col][row].isRevealed){
-//
-//     }else{
-//       return -1;
-//     }
-//
-//   }else{
-//     return -1;
-//   }
-// }
+//  #############
+//  # 6 # 1 # 5 #
+//  #############
+//  # 4 # O # 3 #    Neighbours of the revealed cell
+//  #############
+//  # 8 # 2 # 7 #
+//  #############
 
+//Used to count mines around the revealed cell
+int MinesweeperBoard::countMines(int row, int col) {
+  if(isInRange(row, col) && board[col][row].isRevealed){
+
+    //----------- 1st Neighbour ------------
+    if (isInRange(row-1, col))
+    {
+      if (board[row-1][col].hasMine)
+      minesAround++;
+    }
+    //----------- 2nd Neighbour ------------
+    if (isInRange(row+1, col))
+    {
+      if (board[row+1][col].hasMine)
+      minesAround++;
+    }
+    //----------- 3rd Neighbour ------------
+    if (isInRange(row, col+1))
+    {
+      if (board[row][col+1].hasMine)
+      minesAround++;
+    }
+    //----------- 4th Neighbour ------------
+    if (isInRange(row, col-1))
+    {
+      if (board[row][col-1].hasMine)
+      minesAround++;
+    }
+    //----------- 5th Neighbour ------------
+    if (isInRange(row-1, col+1))
+    {
+      if (board[row-1][col+1].hasMine)
+      minesAround++;
+    }
+    //----------- 6th Neighbour ------------
+    if (isInRange(row-1, col-1))
+    {
+      if (board[row-1][col-1].hasMine)
+      minesAround++;
+    }
+    //----------- 7th Neighbour ------------
+    if (isInRange(row+1, col+1))
+    {
+      if (board[row+1][col+1].hasMine)
+      minesAround++;
+    }
+    //----------- 8th Neighbour ------------
+    if (isInRange(row+1, col-1))
+    {
+      if (board[row+1][col-1].hasMine)
+      minesAround++;
+    }
+
+  }else{
+    return -1;
+  }
+  return minesAround;
+}
+
+//Generates mines on board at random positions
 void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
   int randomHeight, randomWidth;
   srand (time(NULL));
@@ -55,6 +111,7 @@ void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
   }while(amountOfMines > 0);
 }
 
+//Displays the raw board
 void MinesweeperBoard::debug_display() {
   for(int row = 0; row < height; row++){
     for(int col = 0; col < width; col++){
