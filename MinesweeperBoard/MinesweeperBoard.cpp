@@ -2,10 +2,9 @@
 
 MinesweeperBoard::MinesweeperBoard(int width, int height, GameMode gameMode)
 :width(width), height(height), board(height, std::vector<Field>(width)),
-minesAround(0), isFirstAction(true){
+isFirstAction(true){
   amountOfMines = (height*width)*(static_cast<double>(gameMode)/100);
   generateMinesOnBoard(amountOfMines);
-  board[4][4].isRevealed = true;
 }
 
 MinesweeperBoard::~MinesweeperBoard(){
@@ -27,7 +26,7 @@ int MinesweeperBoard::getMineCount() const {
 void MinesweeperBoard::debug_display() {
   for(int row = 0; row < height; row++){
     for(int col = 0; col < width; col++){
-      std::cout << board[row][col].getField();
+      std::cout << board[row][col].getRawField();
     }
     std::cout << '\n';
   }
@@ -64,9 +63,9 @@ bool MinesweeperBoard::isInRange(int row, int col) const {
 //  #############
 
 //Used to count mines around the revealed cell
-int MinesweeperBoard::countMines(int row, int col) {
+int MinesweeperBoard::countMines(int row, int col) const {
+  int minesAround = 0; //Number of mines around the revealed cell
   if(isInRange(row, col) && board[row][col].isRevealed){
-
     //----------- 1st Neighbour ------------
     if (isInRange(row-1, col))
     {
@@ -133,7 +132,7 @@ bool MinesweeperBoard::hasFlag(int row, int col) const {
 //If the field at (row,col) was not revealed - change flag status for this field
 void MinesweeperBoard::toggleFlag(int row, int col) {
   if(isInRange(row, col) && !board[row][col].isRevealed){
-    board[row][col].isRevealed = true;
+    board[row][col].hasFlag = true;
   }
 }
 
@@ -154,6 +153,18 @@ void MinesweeperBoard::revealField(int row, int col) {
 
 bool MinesweeperBoard::isRevealed(int row, int col) const {
   return board[row][col].isRevealed;
+}
+
+std::string MinesweeperBoard::getFieldForPlayer(int row, int col) const {
+  //if the field is revealed and has some mines around
+  int minesAround = countMines(row,col);
+  if(board[row][col].isRevealed && minesAround > 0 && !board[row][col].hasMine){
+    std::stringstream ss;
+    ss << "[" << minesAround << "]";
+    return ss.str();
+  }else{
+    return board[row][col].getField();
+  }
 }
 
 GameState MinesweeperBoard::getGameState() const {
