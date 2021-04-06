@@ -31,7 +31,6 @@ private:
   bool isFirstAction;
   int fieldsToReveal; //Amount of fields to reveal correctly to win the game
                       //(All Fields - amountOfMines)
-
   bool isInRange(int col, int raw) const;
 
 public:

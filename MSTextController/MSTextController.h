@@ -7,7 +7,7 @@ class MSTextController {
 private:
   MinesweeperBoard *board;
   MSBoardTextView *view;
-  GameState gameState;
+  GameState currentGameState;
   int secondaryMenuOperation;
   int row;
   int col;

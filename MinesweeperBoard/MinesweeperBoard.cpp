@@ -141,7 +141,6 @@ void MinesweeperBoard::revealField(int row, int col) {
   if(isInRange(row, col) && !board[row][col].isRevealed && !board[row][col].hasFlag){
     //If its the first player action - move mine to another location
     if(board[row][col].hasMine && isFirstAction){
-      isFirstAction = false;             //Change flag state
       board[row][col].hasMine = false;   //"Delete" mine
       generateMinesOnBoard(1);           //Generate new mine 1 time at random position
       board[row][col].isRevealed = true; //Reveal field
@@ -149,6 +148,7 @@ void MinesweeperBoard::revealField(int row, int col) {
       //just reveal field
       board[row][col].isRevealed = true;
     }
+    isFirstAction = false;  //Change flag state
     fieldsToReveal--;
   }
 }
@@ -183,5 +183,5 @@ GameState MinesweeperBoard::getGameState() const {
     }
   }
   // - RUNNING       - if the game is not yet finished
-  return GameState::RUNNING; //RUNNING by default
+  return GameState::RUNNING;
 }
