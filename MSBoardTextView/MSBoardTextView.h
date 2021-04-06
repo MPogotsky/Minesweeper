@@ -5,7 +5,7 @@
 
 class MSBoardTextView {
 private:
-  MinesweeperBoard board;
+  MinesweeperBoard *board;
 public:
   MSBoardTextView (MinesweeperBoard &board);
   ~MSBoardTextView ();

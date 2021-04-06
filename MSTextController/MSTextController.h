@@ -5,9 +5,12 @@
 
 class MSTextController {
 private:
-  MinesweeperBoard board;
-  MSBoardTextView view;
+  MinesweeperBoard *board;
+  MSBoardTextView *view;
+  GameState gameState;
   int secondaryMenuOperation;
+  int row;
+  int col;
 
 public:
   MSTextController (MinesweeperBoard &board, MSBoardTextView &view);

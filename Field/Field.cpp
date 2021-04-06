@@ -41,6 +41,6 @@ std::string Field::getField() const {
   if(hasMine && isRevealed){
     return "[X]";
   }
-  // if the field is not revealed and does not have a flag
+  
   return "[_]";
 }

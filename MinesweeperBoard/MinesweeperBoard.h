@@ -3,6 +3,7 @@
 
 #include "../Field/Field.h"
 #include <iostream>
+#include <algorithm>
 #include <vector>
 #include <ctime>
 
@@ -28,6 +29,8 @@ private:
   std::vector<std::vector<Field>> board;
   int amountOfMines; //Amount of mines to be placed on a board
   bool isFirstAction;
+  int fieldsToReveal; //Amount of fields to reveal correctly to win the game
+                      //(All Fields - amountOfMines)
 
   bool isInRange(int col, int raw) const;
 
