@@ -2,8 +2,9 @@
 
 MinesweeperBoard::MinesweeperBoard(int height, int width, GameMode gameMode)
 :width(width), height(height), board(height, std::vector<Field>(width)),
-isFirstAction(true){
+isFirstAction(true), fieldsToReveal(0){
   amountOfMines = (height*width)*(static_cast<double>(gameMode)/100);
+  fieldsToReveal = (height*width) - amountOfMines;
   generateMinesOnBoard(amountOfMines);
 }
 
@@ -48,7 +49,7 @@ void MinesweeperBoard::generateMinesOnBoard(int amountOfMines) {
 
 //Checks whether the cell at the position (row, col) is valid or not
 bool MinesweeperBoard::isInRange(int row, int col) const {
-  if(row >= 0 && row <= width && col >= 0 && col <= height){
+  if(row >= 0 && row < width && col >= 0 && col < height){
     return true;
   }
   return false;
@@ -148,6 +149,7 @@ void MinesweeperBoard::revealField(int row, int col) {
       //just reveal field
       board[row][col].isRevealed = true;
     }
+    fieldsToReveal--;
   }
 }
 
@@ -167,10 +169,19 @@ std::string MinesweeperBoard::getFieldForPlayer(int row, int col) const {
   }
 }
 
+// return current game state:
 GameState MinesweeperBoard::getGameState() const {
-  // return current game state:
   // - FINISHED_LOSS - if the player revealed field with mine
-  // - FINISHED_WIN  - if the player won the game (all unrevealed fields have mines)
+  for(auto &elem : board){
+    // - FINISHED_LOSS - if the player revealed field with mine
+    if(std::any_of(elem.begin(), elem.end(), [](Field field){return (field.hasMine && field.isRevealed);})){
+      return GameState::FINISHED_LOSS;
+    }
+    // - FINISHED_WIN  - if the player won the game (all unrevealed fields have mines)
+    if(std::all_of(elem.begin(), elem.end(), [](Field field){return (field.hasMine && !field.isRevealed);}) && fieldsToReveal == 0){
+      return GameState::FINISHED_WIN;
+    }
+  }
   // - RUNNING       - if the game is not yet finished
-  return GameState::RUNNING;
+  return GameState::RUNNING; //RUNNING by default
 }
